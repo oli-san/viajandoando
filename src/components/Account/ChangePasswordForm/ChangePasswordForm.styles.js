@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   input: {
-    marginBottom: 10,
+    marginBottom: 20,
   },
   btnContainer: {
     width: "95%",

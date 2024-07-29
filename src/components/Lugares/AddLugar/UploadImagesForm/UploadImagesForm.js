@@ -1,4 +1,4 @@
-import { View, Alert } from 'react-native';
+import { Alert, ScrollView } from 'react-native';
 import React, {useState} from 'react';
 import { Icon, Avatar, Text } from "react-native-elements";
 import { styles } from "./UploadImagesForm.styles";
@@ -6,6 +6,7 @@ import * as ImagePicker from "expo-image-picker";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { v4 as uuid } from "uuid";
 import { LoadingModal } from "../../../Shared";
+import { map, filter } from "lodash";
 
 export function UploadImagesForm(props) {
     const {formik} = props;
@@ -47,12 +48,36 @@ export function UploadImagesForm(props) {
       setIsLoading(false);
     };
 
+    const removeImage = (img) => {
+      Alert.alert(
+          "Eliminar imagen",
+          "¿Estás seguro de eliminar esta imagen?",
+          [
+            {
+              text: "Cancelar",
+              style: "cancel",
+            },
+            {
+              text: "Eliminar",
+              onPress: ()=>{
+                const result = filter(formik.values.images, (image) => image !==img);
+                formik.setFieldValue("images", result);
+              },
+            },
+          ],
+          {cancelable: false}
+      );
+    };
+
   return (
     <>
-      <View style={styles.viewImage} >
+      <ScrollView style={styles.viewImage} horizontal showsHorizontalScrollIndicator={false} >
         <Icon type='material-community' name='camera' color="#a7a7a7" containerStyle={styles.containerIcon} onPress={openGallery} />
 
-      </View>
+        {map(formik.values.images, (image) =>(
+          <Avatar key={image} source={{uri: image}} containerStyle={styles.imageStyle} onPress={() => removeImage(image)} />
+        ))}
+      </ScrollView>
       <Text style={styles.error}>{formik.errors.images}</Text>
 
       <LoadingModal show={isLoading} text="Subiendo imagen" />

@@ -1,7 +1,8 @@
 import React from "react";
 import { View } from "react-native";
+import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import { styles } from "./AddLugarScreen.styles";
-import { InfoForm } from "../../../components/Lugares/AddLugar";
+import { InfoForm, UploadImagesForm } from "../../../components/Lugares/AddLugar";
 import { Button } from "react-native-elements";
 import { useFormik } from "formik";
 import { initialValues, validationSchema } from "./AddLugarScreen.data";
@@ -16,8 +17,10 @@ export function AddLugarScreen() {
     },
   });
   return (
-    <View>
+    <KeyboardAwareScrollView>
       <InfoForm formik={formik} />
+
+      <UploadImagesForm formik={formik} />
 
       <Button
         title="Crear Lugar"
@@ -25,6 +28,6 @@ export function AddLugarScreen() {
         onPress={formik.handleSubmit}
         loading={formik.isSubmitting}
       />
-    </View>
+    </KeyboardAwareScrollView>
   );
 }

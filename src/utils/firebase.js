@@ -1,4 +1,5 @@
 import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -7,8 +8,9 @@ const firebaseConfig = {
   projectId: "lugares-favoritos-v1",
   storageBucket: "lugares-favoritos-v1.appspot.com",
   messagingSenderId: "621396953976",
-  appId: "1:621396953976:web:9f61e8c92460786126d68d"
+  appId: "1:621396953976:web:9f61e8c92460786126d68d",
 };
 
 // Initialize Firebase
 export const initFirebase = initializeApp(firebaseConfig);
+export const db = getFirestore(initFirebase);

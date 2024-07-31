@@ -30,7 +30,7 @@ export function Info(props) {
   return (
     <View style={styles.content}>
       <Text style={styles.title}>Información sobre el lugar</Text>
-      {/*<Map location={lugar.location} name={lugar.name} />*/}
+      <Map location={lugar.location} name={lugar.name} />
       {map(listInfo, (item, index) => (
         <ListItem key={index} bottomDivider>
           <Icon type={item.iconType} name={item.iconName} color="#00a680" />

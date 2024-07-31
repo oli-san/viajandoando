@@ -10,7 +10,7 @@ import {
   orderBy,
 } from "firebase/firestore";
 import { db } from "../../../utils";
-import { Carousel } from "../../../components/Shared";
+import { Carousel, Loading } from "../../../components/Shared";
 
 const {width}= Dimensions.get("window")
 
@@ -25,7 +25,7 @@ export function LugarScreen(props) {
     });
   }, [route.params.id]);
 
-  if (!lugar) return null;
+  if (!lugar) return <Loading show text="Cargando lugares"/>;
 
   return (
     <ScrollView style={styles.content}>

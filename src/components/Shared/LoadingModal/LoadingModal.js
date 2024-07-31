@@ -1,6 +1,6 @@
 import React from 'react'
-import { View, ActivityIndicator } from 'react-native'
-import { Overlay, Text } from "react-native-elements";
+import { View, ActivityIndicator, Text } from 'react-native'
+import { Overlay } from "react-native-elements";
 import { styles } from "./LoadingModal.styles";
 
 export function LoadingModal(props) {

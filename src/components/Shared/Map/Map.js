@@ -21,7 +21,7 @@ export function Map(props) {
       initialRegion={location}
       onPress={openAppMap}
     >
-      <Marker coordinate={location} />
+      <Marker coordinate={location} pinColor="red" />
     </MapView>
   );
 }

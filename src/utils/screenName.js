@@ -3,6 +3,7 @@ const lugarStack = {
   lugares: "Lugares",
   addLugar: "AddLugar",
   lugar: "Lugar",
+  addReviewLugar: "AddReviewLugar",
 };
 
 const favoritesStack = {

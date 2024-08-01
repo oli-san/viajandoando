@@ -11,7 +11,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../../../utils";
 import { Carousel, Loading } from "../../../components/Shared";
-import { Header, Info } from "../../../components/Lugar";
+import { Header, Info, BtnReviewForm  } from "../../../components/Lugar";
 
 const {width}= Dimensions.get("window")
 
@@ -33,6 +33,7 @@ export function LugarScreen(props) {
       <Carousel arrayImages={lugar.images} height={250} width={width} />
       <Header lugar={lugar} />
       <Info lugar={lugar} />
+      <BtnReviewForm idLugar={route.params.id} />
     </ScrollView>
   );
 }

@@ -23,6 +23,8 @@
     "expo-updates": "~0.18.19",
     "firebase": "^10.12.4",
     "formik": "^2.4.6",
+    "intl": "^1.2.5",
+    "luxon": "^3.4.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-native": "0.72.10",

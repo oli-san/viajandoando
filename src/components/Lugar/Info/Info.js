@@ -7,7 +7,6 @@ import { styles } from "./Info.styles";
 
 export function Info(props) {
   const { lugar } = props;
-  console.log(lugar);
 
   const listInfo = [
     {

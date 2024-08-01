@@ -1,19 +1,12 @@
 import { ScrollView, Dimensions } from "react-native";
 import React, { useState, useEffect } from "react";
 import { styles } from "./LugarScreen.styles";
-import {
-  doc,
-  onSnapshot,
-  collection,
-  query,
-  where,
-  orderBy,
-} from "firebase/firestore";
+import { doc, onSnapshot, collection, query, where, orderBy } from "firebase/firestore";
 import { db } from "../../../utils";
 import { Carousel, Loading } from "../../../components/Shared";
-import { Header, Info, BtnReviewForm  } from "../../../components/Lugar";
+import { Header, Info, BtnReviewForm, Reviews } from "../../../components/Lugar";
 
-const {width}= Dimensions.get("window")
+const { width } = Dimensions.get("window");
 
 export function LugarScreen(props) {
   const { route } = props;
@@ -26,7 +19,7 @@ export function LugarScreen(props) {
     });
   }, [route.params.id]);
 
-  if (!lugar) return <Loading show text="Cargando lugares"/>;
+  if (!lugar) return <Loading show text="Cargando lugares" />;
 
   return (
     <ScrollView style={styles.content}>
@@ -34,6 +27,7 @@ export function LugarScreen(props) {
       <Header lugar={lugar} />
       <Info lugar={lugar} />
       <BtnReviewForm idLugar={route.params.id} />
+      <Reviews idLugar={route.params.id} />
     </ScrollView>
   );
 }

@@ -12,19 +12,22 @@ export function FavoritesScreen() {
   const [lugares, setLugares] = useState(null);
   const auth = getAuth();
 
-  useEffect(() => {
+  /* useEffect(() => {
     onAuthStateChanged(auth, (user) => {
+      console.log("User state changed: ", user);
       setHasLogged(user ? true : false);
     });
   }, []);
 
   useEffect(() => {
     if (auth?.currentUser) {
+      //console.log("Fetching favorites for user: ", auth.currentUser.uid);
       const q = query(
         collection(db, "favorites"),
         where("idUser", "==", auth.currentUser.uid)
       );
       onSnapshot(q, async (snapshot) => {
+        //console.log("Snapshot received: ", snapshot.docs.length);
         let lugarArray = [];
         for await (const item of snapshot.docs) {
           const data = item.data();
@@ -34,10 +37,64 @@ export function FavoritesScreen() {
           newData.idFavorite = data.id;
           lugarArray.push(newData);
         }
+        //console.log("Updated lugares: ", lugarArray);
         setLugares(lugarArray);
       });
     }
-  }, [auth]);
+  }, [auth]); */
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setHasLogged(!!user);
+    });
+
+    // Cleanup on unmount
+    return () => unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    if (hasLogged) {
+      const fetchFavorites = async () => {
+        if (auth?.currentUser) {
+          try {
+            const q = query(
+              collection(db, "favorites"),
+              where("idUser", "==", auth.currentUser.uid)
+            );
+            const unsubscribe = onSnapshot(q, async (snapshot) => {
+              let lugarArray = [];
+              for await (const item of snapshot.docs) {
+                try {
+                  const data = item.data();
+                  const docRef = doc(db, "lugares", data.idLugar);
+                  const docSnap = await getDoc(docRef);
+                  if (docSnap.exists()) {
+                    const newData = docSnap.data();
+                    newData.idFavorite = data.id;
+                    lugarArray.push(newData);
+                  } else {
+                    console.log("No such document: ", data.idLugar);
+                  }
+                } catch (error) {
+                  console.error("Error fetching document: ", error);
+                }
+              }
+              setLugares(lugarArray);
+            }, (error) => {
+              console.error("Error with onSnapshot: ", error);
+            });
+
+            // Cleanup on unmount
+            return () => unsubscribe();
+          } catch (error) {
+            console.error("Error with query: ", error);
+          }
+        }
+      };
+
+      fetchFavorites();
+    }
+  }, [hasLogged, auth]);
 
   if (!hasLogged) return <UserNotLogged />;
 
